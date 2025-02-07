@@ -4,20 +4,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorMsg = document.getElementById("error-msg");
     const personalInfo = document.getElementById("personal-info");
     const emailForm = document.getElementById("email-form");
-
-    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     submitBtn.addEventListener("click", function () {
-        const emailValue = emailInput.value.trim();
+        const email = emailInput.value.trim();
 
-        if (!emailValue) {
-            errorMsg.textContent = "Vui lòng nhập email!";
-        } else if (!emailRegex.test(emailValue)) {
-            errorMsg.textContent = "Email không hợp lệ!";
-        } else {
-            errorMsg.textContent = "";
-            emailForm.classList.add("hide");
-            personalInfo.classList.remove("hide");
+        if (!regex.test(email)) {
+            errorMsg.textContent = "Vui lòng nhập email hợp lệ!";
+            return;
         }
+        errorMsg.textContent = "";
+        personalInfo.classList.remove("hide");
+        emailForm.classList.add("hide");
     });
 });
+
+
+function toggleInfo(id, button) {
+    let container = document.getElementById(id);
+    if (container.classList.contains("hidden")) {
+      container.classList.remove("hidden");
+      button.textContent = "View Less";
+    } else {
+      container.classList.add("hidden");
+      button.textContent = "View More";
+    }
+  }
